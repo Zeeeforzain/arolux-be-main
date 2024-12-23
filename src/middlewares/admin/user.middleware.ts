@@ -1,7 +1,7 @@
 import { NextFunction } from 'express';
 
 import { sendResponse } from '../../util/utilities.js';
-import User from '../../models/user.js';
+import User from '../../models/userAccounts.js';
 import { isValidObjectId } from 'mongoose';
 import { saveErrorLog } from '../common/errorLog.middleware.js';
 

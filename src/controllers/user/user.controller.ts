@@ -4,7 +4,7 @@ import { Response, NextFunction, RequestHandler } from 'express';
 import dayjs from 'dayjs';
 import { sendEmail } from '../../services/emailNotification/sendgrid.js';
 
-import User from '../../models/user.js';
+import User from '../../models/userAccounts.js';
 
 import Configuration from '../../models/configuration.js';
 import { CONSTANTS } from '../../util/constants.js';

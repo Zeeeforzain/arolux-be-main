@@ -26,7 +26,7 @@ const adminRouter = Router();
 adminRouter.post(
 	'/login',
 	decryptMiddleware,
-	schemaValidator('/admin/login'),
+	// schemaValidator('/admin/login'),
 	adminLogin
 );
 adminRouter.post('/logout', adminAuth, adminLogout);
@@ -36,7 +36,7 @@ adminRouter.post(
 	'/account',
 	adminAuth,
 	decryptMiddleware,
-	schemaValidator('/admin/create-admin-account'),
+	// schemaValidator('/admin/create-admin-account'),
 	isAdminAllowedToPerformOperation([CONSTANTS.ADMIN_TYPES.superAdmin]),
 	isEmailAlreadyUsed,
 	createNewAdminAccount
@@ -46,7 +46,7 @@ adminRouter.put(
 	'/:adminId/account/password',
 	adminAuth,
 	decryptMiddleware,
-	schemaValidator('/admin/update-admin-account-password'),
+	// schemaValidator('/admin/update-admin-account-password'),
 	isAdminAllowedToPerformOperation([CONSTANTS.ADMIN_TYPES.superAdmin]),
 	isValidAdminId,
 	updateAdminAccountPassword
@@ -55,7 +55,7 @@ adminRouter.put(
 adminRouter.put(
 	'/:adminId/account/status',
 	adminAuth,
-	schemaValidator('/admin/update-admin-account-status'),
+	// schemaValidator('/admin/update-admin-account-status'),
 	isAdminAllowedToPerformOperation([CONSTANTS.ADMIN_TYPES.superAdmin]),
 	updateAdminAccountStatus
 );
@@ -63,7 +63,7 @@ adminRouter.put(
 adminRouter.put(
 	'/:adminId/account',
 	adminAuth,
-	schemaValidator('/admin/update-admin-account'),
+	// schemaValidator('/admin/update-admin-account'),
 	isAdminAllowedToPerformOperation([CONSTANTS.ADMIN_TYPES.superAdmin]),
 	isValidAdminId,
 	isEmailAlreadyUsed,

@@ -5,7 +5,7 @@ import {
 	sendResponse,
 } from '../../util/utilities.js';
 import { Types, isValidObjectId } from 'mongoose';
-import User from '../../models/user.js';
+import User from '../../models/userAccounts.js';
 import { saveActionLog } from '../../middlewares/common/actionLog.middleware.js';
 import { CONSTANTS } from '../../util/constants.js';
 import { saveErrorLog } from '../../middlewares/common/errorLog.middleware.js';

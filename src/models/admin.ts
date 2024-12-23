@@ -5,7 +5,7 @@ import { CONSTANTS } from '../util/constants.js';
 interface IAdmin {
 	// basic profile attributes
 	_id: ObjectId;
-	name: string; 
+	name: string;
 	email: string;
 	phoneNumber: string;
 	password: string;
@@ -30,8 +30,6 @@ const adminSchema = new Schema<IAdmin>(
 		},
 		email: { type: String, unique: true },
 		password: { type: String },
-		approvedCampaignsCount: { type: Number, default: 0 },
-		declinedCampaignsCount: { type: Number, default: 0 },
 		usersDisabledCount: { type: Number, default: 0 },
 		phoneNumber: { type: String, default: null },
 		isActive: { type: Boolean, default: true },
@@ -75,6 +73,7 @@ const createRootAdmin = async () => {
 			name: 'Super Admin',
 			email: 'superadmin@arolux.com',
 			password: 'admin@1234',
+			adminType: CONSTANTS.ADMIN_TYPES.superAdmin,
 		}).save();
 	}
 };

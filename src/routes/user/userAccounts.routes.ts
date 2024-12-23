@@ -36,11 +36,11 @@ userAccountRouter.post(
 	userLogin
 );
 
-userAccountRouter.post(
-	'/token',
-	schemaValidator('/user/refresh-token'),
-	userRefreshToken
-);
+// userAccountRouter.post(
+// 	'/token',
+// 	schemaValidator('/user/refresh-token'),
+// 	userRefreshToken
+// );
 
 userAccountRouter.post(
 	'/logout',

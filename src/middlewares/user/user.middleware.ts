@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import User from '../../models/user.js';
+import User from '../../models/userAccounts.js';
 import Country from '../../models/country.js';
 
 import {

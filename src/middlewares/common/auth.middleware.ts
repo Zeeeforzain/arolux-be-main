@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import { sendResponse, verifyJWTToken } from '../../util/utilities.js';
-import User from '../../models/user.js';
+import User from '../../models/userAccounts.js';
 import Admin from '../../models/admin.js';
 import { saveErrorLog } from './errorLog.middleware.js';
 
