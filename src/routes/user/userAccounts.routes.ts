@@ -1,16 +1,11 @@
 import { Router } from 'express';
 import {
-	userSignup,
 	userLogin,
 	userLogout,
-	userRefreshToken,
 } from '../../controllers/user/user.controller.js';
 
 import schemaValidator from '../../validators/schemaValidator.js';
-import {
-	isEmailAlreadyUsed,
-	decryptMiddleware,
-} from '../../middlewares/user/user.middleware.js';
+import { isPhoneNumberAlreadyRegistered } from '../../middlewares/user/user.middleware.js';
 
 import {
 	auth,
@@ -19,22 +14,21 @@ import {
 import { CONSTANTS } from '../../util/constants.js';
 
 const userAccountRouter = Router();
-//Signup via email
-userAccountRouter.post(
-	'/signup',
-	decryptMiddleware,
-	schemaValidator('/user/signup'),
-	isEmailAlreadyUsed,
-	userSignup
-);
 
-//Login via email
 userAccountRouter.post(
 	'/login',
-	decryptMiddleware,
 	schemaValidator('/user/login'),
+	isPhoneNumberAlreadyRegistered,
 	userLogin
 );
+
+// userAccountRouter.post(
+// 	'/signup',
+// 	decryptMiddleware,
+// 	schemaValidator('/user/signup'),
+// 	isEmailAlreadyUsed,
+// 	userSignup
+// );
 
 // userAccountRouter.post(
 // 	'/token',

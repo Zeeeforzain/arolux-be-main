@@ -56,6 +56,14 @@ const userLoginValidation: ObjectSchema = Joi.object({
 			'string.pattern.base': 'Phone number must contain 7-15 digits.',
 			'string.empty': 'Phone number is required',
 		}),
+	deviceType: Joi.string().required().messages({
+		'string.base': 'Device type must be a string',
+		'string.empty': 'Device type is required',
+	}),
+	deviceToken: Joi.string().required().messages({
+		'string.base': 'Device token must be a string',
+		'string.empty': 'Device token is required',
+	}),
 });
 
 // User email verification validation schema

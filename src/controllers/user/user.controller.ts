@@ -471,88 +471,31 @@ export const userLogin = async (
 	next: NextFunction
 ) => {
 	try {
-		const { email, password } = req.body;
+		const { countryCode, phoneNumber, deviceType, deviceToken } = req.body;
 
-		const user = await User.findOne(
-			{
-				email,
-			},
-			{
-				firstName: 1,
-				lastName: 1,
-				password: 1,
-				status: 1,
-			}
-		);
-
-		if (!user) {
-			return sendResponse(res, {
-				statusCode: 400,
-				success: false,
-				message: 'Invalid credentials',
-				data: {},
-			});
-		} else if (!user.password || user.password === '') {
-			return sendResponse(res, {
-				statusCode: 400,
-				success: false,
-				message: 'Please reset your password to login.',
-				data: {},
-			});
-		} else if (user.status === 'inActive') {
-			return sendResponse(res, {
-				statusCode: 401,
-				success: false,
-				message:
-					'Your account has been deactivated by the admin. Please contact support.',
-				data: {},
-			});
+		if (req.userRecord) {
+			// Already Registered, just create a random code of 4 digits and send to user over phone number and email
+		} else {
+			// Create new record in user accounts and create a random code of 4 digits and send to user over phone number
 		}
 
-		const isValidPassword = await comparePassword(password, user.password);
-
-		if (!isValidPassword) {
-			return sendResponse(res, {
-				statusCode: 400,
-				success: false,
-				message: 'Invalid credentials',
-				data: {},
-			});
-		}
-
-		const { accessToken, refreshToken } = await fetchAccessAndRefreshToken({
-			_id: user._id,
-			email,
-		});
-
-		await User.updateOne(
-			{
-				_id: user._id,
-			},
-			{
-				$set: {
-					lastLoginTime: new Date(),
-				},
-			}
-		);
-
-		await saveActionLog({
-			logType: CONSTANTS.LOG_TYPES.user.signin,
-			details: {},
-			userId: user._id,
-			adminId: null,
-			campaignId: null,
-		});
+		// await saveActionLog({
+		// 	logType: CONSTANTS.LOG_TYPES.user.signin,
+		// 	details: {},
+		// 	userId: user._id,
+		// 	adminId: null,
+		// 	campaignId: null,
+		// });
 
 		return sendResponse(res, {
 			statusCode: 200,
 			success: true,
 			message: 'Success',
 			data: {
-				firstName: user.firstName,
-				lastName: user.lastName,
-				accessToken,
-				refreshToken,
+				// firstName: user.firstName,
+				// lastName: user.lastName,
+				// accessToken,
+				// refreshToken,
 			},
 		});
 	} catch (err: any) {
