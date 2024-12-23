@@ -1,6 +1,6 @@
 import Joi, { ObjectSchema } from 'joi';
-import { CONSTANTS } from '../util/constants'; // Assuming you have this import
-import { JoiObjectId } from '../util/utilities'; // Assuming this is used for ObjectId validation if needed
+// import { CONSTANTS } from '../util/constants'; // Assuming you have this import
+// import { JoiObjectId } from '../util/utilities'; // Assuming this is used for ObjectId validation if needed
 
 const PASSWORD_REGEX = new RegExp(
 	'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!.@#$%^&*])[A-Za-z0-9!.@#$%^&*]{8,}$' // Minimum 8 characters, with at least one lowercase, one uppercase, one number, and one special character
@@ -38,6 +38,35 @@ const userSignupValidation: ObjectSchema = Joi.object({
 		'string.base': 'Referral code must be a string',
 		'string.max': 'Referral code cannot be longer than 10 characters',
 	}),
+<<<<<<< HEAD
+=======
+});
+
+const userLoginValidation: ObjectSchema = Joi.object({
+	countryCode: Joi.string()
+		.required()
+		.pattern(/^\+\d{1,4}$/)
+		.messages({
+			'string.pattern.base':
+				'Country code must start with "+" followed by 1-4 digits.',
+			'string.empty': 'Country code is required',
+		}),
+	phoneNumber: Joi.string()
+		.required()
+		.pattern(/^\d{7,15}$/)
+		.messages({
+			'string.pattern.base': 'Phone number must contain 7-15 digits.',
+			'string.empty': 'Phone number is required',
+		}),
+	deviceType: Joi.string().required().messages({
+		'string.base': 'Device type must be a string',
+		'string.empty': 'Device type is required',
+	}),
+	deviceToken: Joi.string().required().messages({
+		'string.base': 'Device token must be a string',
+		'string.empty': 'Device token is required',
+	}),
+>>>>>>> fe23afc40c3d3fb9f499832a45c749cb3b8e1533
 });
 
 // User email verification validation schema
@@ -61,7 +90,12 @@ const userSignupPhoneValidation: ObjectSchema = Joi.object({
 		.required()
 		.pattern(/^\+\d{1,4}$/)
 		.messages({
+<<<<<<< HEAD
 			'string.pattern.base': 'Country code must start with "+" followed by 1-4 digits.',
+=======
+			'string.pattern.base':
+				'Country code must start with "+" followed by 1-4 digits.',
+>>>>>>> fe23afc40c3d3fb9f499832a45c749cb3b8e1533
 			'string.empty': 'Country code is required',
 		}),
 	phoneNumber: Joi.string()
@@ -76,6 +110,10 @@ const userSignupPhoneValidation: ObjectSchema = Joi.object({
 
 export default {
 	'/user/signup': userSignupValidation,
+<<<<<<< HEAD
+=======
+	'/user/login': userLoginValidation,
+>>>>>>> fe23afc40c3d3fb9f499832a45c749cb3b8e1533
 	'/user/email-verification': sendEmailVerificationValidation,
 	'/user/confirm-email-verification': confirmUserEmailVerificationValidation,
 	'/user/signup-phone': userSignupPhoneValidation, // This is for the phone and country code validation
