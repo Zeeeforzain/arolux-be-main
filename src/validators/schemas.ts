@@ -38,8 +38,6 @@ const userSignupValidation: ObjectSchema = Joi.object({
 		'string.base': 'Referral code must be a string',
 		'string.max': 'Referral code cannot be longer than 10 characters',
 	}),
-<<<<<<< HEAD
-=======
 });
 
 const userLoginValidation: ObjectSchema = Joi.object({
@@ -66,7 +64,6 @@ const userLoginValidation: ObjectSchema = Joi.object({
 		'string.base': 'Device token must be a string',
 		'string.empty': 'Device token is required',
 	}),
->>>>>>> fe23afc40c3d3fb9f499832a45c749cb3b8e1533
 });
 
 // User email verification validation schema
@@ -90,12 +87,8 @@ const userSignupPhoneValidation: ObjectSchema = Joi.object({
 		.required()
 		.pattern(/^\+\d{1,4}$/)
 		.messages({
-<<<<<<< HEAD
-			'string.pattern.base': 'Country code must start with "+" followed by 1-4 digits.',
-=======
 			'string.pattern.base':
 				'Country code must start with "+" followed by 1-4 digits.',
->>>>>>> fe23afc40c3d3fb9f499832a45c749cb3b8e1533
 			'string.empty': 'Country code is required',
 		}),
 	phoneNumber: Joi.string()
@@ -110,10 +103,7 @@ const userSignupPhoneValidation: ObjectSchema = Joi.object({
 
 export default {
 	'/user/signup': userSignupValidation,
-<<<<<<< HEAD
-=======
 	'/user/login': userLoginValidation,
->>>>>>> fe23afc40c3d3fb9f499832a45c749cb3b8e1533
 	'/user/email-verification': sendEmailVerificationValidation,
 	'/user/confirm-email-verification': confirmUserEmailVerificationValidation,
 	'/user/signup-phone': userSignupPhoneValidation, // This is for the phone and country code validation

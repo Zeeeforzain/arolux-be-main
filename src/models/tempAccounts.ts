@@ -1,14 +1,14 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from 'mongoose';
 
-// Define the type for SignUp input
-export interface SignUp {
+// Define the type for tempAccounts input
+export interface tempAccounts {
 	countryCode: string;
 	phoneNumber: string;
 	isVerified?: boolean; // Optional field for future verification status
 }
 
 // Create the Mongoose schema
-const signUpSchema: Schema = new mongoose.Schema(
+const tempAccountsSchema: Schema = new mongoose.Schema(
 	{
 		countryCode: {
 			type: String,
@@ -32,6 +32,6 @@ const signUpSchema: Schema = new mongoose.Schema(
 );
 
 // Create the Model
-const SignUp = model<SignUp>("signUp", signUpSchema);
+const tempAccounts = model<tempAccounts>('tempAccounts', tempAccountsSchema);
 
-export default SignUp;
+export default tempAccounts;
