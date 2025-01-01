@@ -12,7 +12,7 @@ import {
 } from '../../controllers/admin/adminAccount.controller.js';
 import schemaValidator from '../../validators/schemaValidator.js';
 import {
-	decryptMiddleware,
+
 	isAdminAllowedToPerformOperation,
 	isEmailAlreadyUsed,
 	isValidAdminId,
@@ -25,8 +25,7 @@ import { CONSTANTS } from '../../util/constants.js';
 const adminRouter = Router();
 adminRouter.post(
 	'/login',
-	decryptMiddleware,
-	// schemaValidator('/admin/login'),
+	schemaValidator('/admin/login'),
 	adminLogin
 );
 adminRouter.post('/logout', adminAuth, adminLogout);
@@ -35,7 +34,7 @@ adminRouter.get('/profile', adminAuth, adminProfile);
 adminRouter.post(
 	'/account',
 	adminAuth,
-	decryptMiddleware,
+
 	// schemaValidator('/admin/create-admin-account'),
 	isAdminAllowedToPerformOperation([CONSTANTS.ADMIN_TYPES.superAdmin]),
 	isEmailAlreadyUsed,
@@ -45,7 +44,6 @@ adminRouter.post(
 adminRouter.put(
 	'/:adminId/account/password',
 	adminAuth,
-	decryptMiddleware,
 	// schemaValidator('/admin/update-admin-account-password'),
 	isAdminAllowedToPerformOperation([CONSTANTS.ADMIN_TYPES.superAdmin]),
 	isValidAdminId,
