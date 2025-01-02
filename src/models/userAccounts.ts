@@ -7,6 +7,8 @@ export interface UserPersonalInfo extends Document {
 	referralCode?: string;
 	countryCode: string;
 	phoneNumber: string;
+	verificationCode: string;
+	verificationCodeExpiryTime: Date;
 	deviceType: string;
 	deviceToken: string;
 	isVerified?: boolean;
@@ -41,6 +43,14 @@ const userAccountsSchema: Schema<UserPersonalInfo> = new mongoose.Schema(
 			match: /^\d{7,15}$/, // Validates phone number (7-15 digits)
 			unique: true, // Ensures phone number is unique
 			trim: true,
+		},
+		verificationCode: {
+			type: String,
+			default: null,
+		},
+		verificationCodeExpiryTime: {
+			type: Date,
+			default: null,
 		},
 		deviceType: {
 			type: String,

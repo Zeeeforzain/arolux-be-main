@@ -1,10 +1,14 @@
 import mongoose, { Schema, model } from 'mongoose';
 
 // Define the type for tempAccounts input
-export interface tempAccounts {
+export interface ITempAccount {
 	countryCode: string;
 	phoneNumber: string;
+	verificationCode: string;
+	verificationCodeExpiryTime: Date;
 	isVerified?: boolean; // Optional field for future verification status
+	deviceType: string;
+	deviceToken: string;
 }
 
 // Create the Mongoose schema
@@ -23,15 +27,31 @@ const tempAccountsSchema: Schema = new mongoose.Schema(
 			unique: true, // Ensures phone number is unique
 			trim: true,
 		},
+		verificationCode: {
+			type: String,
+			default: null,
+		},
+		verificationCodeExpiryTime: {
+			type: Date,
+			default: null,
+		},
 		isVerified: {
 			type: Boolean,
 			default: false, // Indicates if the phone number is verified
+		},
+		deviceType: {
+			type: String,
+			default: null,
+		},
+		deviceToken: {
+			type: String,
+			default: null,
 		},
 	},
 	{ timestamps: true }
 );
 
 // Create the Model
-const tempAccounts = model<tempAccounts>('tempAccounts', tempAccountsSchema);
+const TempAccounts = model<ITempAccount>('tempAccounts', tempAccountsSchema);
 
-export default tempAccounts;
+export default TempAccounts;

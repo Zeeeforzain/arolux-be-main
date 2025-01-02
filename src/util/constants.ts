@@ -1,12 +1,11 @@
 export const CONSTANTS = {
-
 	ADMIN_TYPES: {
 		superAdmin: 'super-admin',
 		financeAdmin: 'finance-admin',
 		approverAdmin: 'approver-admin',
 		reporterAdmin: 'reporter-admin',
 	},
-	ADMIN_ACCESS:{
+	ADMIN_ACCESS: {
 		DASHBOARD: 'dashboard',
 		RIDES: 'rides',
 		VEHICLES: 'vehicles',
@@ -16,4 +15,11 @@ export const CONSTANTS = {
 		LOCATIONS: 'locations',
 		ADMINS: 'admins',
 	},
+	LOG_TYPES: {
+		user: {
+			signin: 'sign-in',
+		},
+		admin: {},
+	},
+	VERIFICATION_CODE_EXPIRY_TIME_IN_MINUTES: 60,
 };
