@@ -26,6 +26,8 @@ export const CONSTANTS = {
 			signout: 'sign-out',
 			adminAccountCreated: 'admin-account-created',
 			adminAccountUpdated: 'admin-account-updated',
+			configurationUpdated: 'configuration-updated',
+			countryUpdated: 'country-updated',
 		},
 	},
 	VERIFICATION_CODE_EXPIRY_TIME_IN_MINUTES: 60,
