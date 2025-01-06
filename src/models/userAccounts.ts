@@ -1,4 +1,5 @@
 import mongoose, { Schema, Model, Document } from 'mongoose';
+import { CONSTANTS } from '../util/constants.js';
 
 // Define the interface for User Personal Info
 export interface UserPersonalInfo extends Document {
@@ -7,11 +8,12 @@ export interface UserPersonalInfo extends Document {
 	referralCode?: string;
 	countryCode: string;
 	phoneNumber: string;
+	profileImageURL: string;
 	verificationCode: string;
 	verificationCodeExpiryTime: Date;
 	deviceType: string;
 	deviceToken: string;
-	isVerified?: boolean;
+	status: string;
 }
 
 // Create the Mongoose schema
@@ -44,6 +46,10 @@ const userAccountsSchema: Schema<UserPersonalInfo> = new mongoose.Schema(
 			unique: true, // Ensures phone number is unique
 			trim: true,
 		},
+		profileImageURL: {
+			type: String,
+			trim: true,
+		},
 		verificationCode: {
 			type: String,
 			default: null,
@@ -60,14 +66,15 @@ const userAccountsSchema: Schema<UserPersonalInfo> = new mongoose.Schema(
 			type: String,
 			default: null,
 		},
-		isVerified: {
-			type: Boolean,
-			default: false, // Indicates if the phone number is verified
-		},
 		referralCode: {
 			type: String,
 			trim: true,
 			maxlength: 10, // Optional referral code, maximum 10 characters
+		},
+		status: {
+			type: String,
+			default: CONSTANTS.USER_PROFILE_STATUSES.active,
+			enum: CONSTANTS.USER_PROFILE_STATUSES,
 		},
 	},
 	{ timestamps: true }

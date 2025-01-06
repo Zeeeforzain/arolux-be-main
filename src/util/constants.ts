@@ -17,9 +17,15 @@ export const CONSTANTS = {
 	},
 	LOG_TYPES: {
 		user: {
-			signin: 'sign-in',
+			sendLoginCode: 'send-login-code',
+			verifyLoginCode: 'verify-login-code',
+			signup: 'sign-up',
 		},
 		admin: {},
 	},
 	VERIFICATION_CODE_EXPIRY_TIME_IN_MINUTES: 60,
+	USER_PROFILE_STATUSES: {
+		active: 'active',
+		blocked: 'blocked',
+	},
 };

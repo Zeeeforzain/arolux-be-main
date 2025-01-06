@@ -7,12 +7,8 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import './services/crons/crons';
-import dotenv from 'dotenv';
 import router from './routes/base.routes.js';
-
-
-dotenv.config();
+import './services/crons/crons.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -39,7 +35,6 @@ app.use(
 		].join(' ');
 	})
 );
-
 app.use('/invoices', express.static(path.join(__dirname, 'invoices')));
 
 const limiter = rateLimit({
@@ -63,8 +58,7 @@ app.get('/', (req: Request, res: Response) => {
 // Routing
 app.use(router);
 
-// 404 handler
-app.use((req: Request, res: Response) => {
+app.use((req, res) => {
 	res.status(404).json({
 		success: false,
 		message: 'Resource not found.',
@@ -78,7 +72,7 @@ app.use((err: any, req: Request, res: Response) => {
 
 	return res.status(500).json({
 		success: false,
-		message: 'An error occurred. Please try again later.',
+		message: 'Error occured. Please try again later.',
 		data: {},
 	});
 });
