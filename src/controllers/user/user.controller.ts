@@ -212,7 +212,7 @@ export const userSignup = async (
 			profileImageURL,
 		} = req.body;
 
-		const userRecord = await new User({
+		const userRecord: any = await new User({
 			countryCode,
 			phoneNumber,
 			deviceType,

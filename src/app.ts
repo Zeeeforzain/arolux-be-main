@@ -4,14 +4,8 @@ import { rateLimit } from 'express-rate-limit';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import router from './routes/base.routes.js';
 import './services/crons/crons.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const app: Express = express();
 
@@ -35,7 +29,6 @@ app.use(
 		].join(' ');
 	})
 );
-app.use('/invoices', express.static(path.join(__dirname, 'invoices')));
 
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
