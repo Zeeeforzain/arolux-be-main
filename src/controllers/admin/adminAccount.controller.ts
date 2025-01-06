@@ -94,6 +94,7 @@ export const adminLogin = async (req: any, res: Response) => {
 			},
 		});
 	} catch (err: any) {
+		console.log(err);
 		saveErrorLog({
 			endpoint: req.originalUrl,
 			params: Object.assign({

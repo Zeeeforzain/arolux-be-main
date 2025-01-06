@@ -20,8 +20,11 @@ export const CONSTANTS = {
 			sendLoginCode: 'send-login-code',
 			verifyLoginCode: 'verify-login-code',
 			signup: 'sign-up',
+			
 		},
-		admin: {},
+		admin: {
+			signin:'sign-in'
+		},
 	},
 	VERIFICATION_CODE_EXPIRY_TIME_IN_MINUTES: 60,
 	USER_PROFILE_STATUSES: {
