@@ -117,6 +117,7 @@ export const userVerifyLoginCode: RequestHandler = async (
 				{
 					verificationCode: 1,
 					verificationCodeExpiryTime: 1,
+					email: 1,
 				}
 			);
 
