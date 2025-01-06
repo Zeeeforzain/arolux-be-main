@@ -27,7 +27,9 @@ export const isPhoneNumberAlreadyRegistered: RequestHandler = async (
 			});
 		}
 
-		const userRecord: any = await User.countDocuments(filter);
+		const userRecord: any = await User.findOne(filter, {
+			_id: 1,
+		});
 
 		if (userRecord) {
 			Object.assign(req, {
