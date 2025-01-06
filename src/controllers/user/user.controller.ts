@@ -32,7 +32,8 @@ export const userSendLoginCode = async (
 
 			account = await User.updateOne(
 				{
-					_id: req.userRecord._id,
+					countryCode,
+					phoneNumber,
 				},
 				{
 					$set: {
@@ -131,7 +132,7 @@ export const userSendLoginCode = async (
 	}
 };
 
-export const userVerifyLoginCode = async (
+export const userLoginCodeVerificationResponse = async (
 	req: any,
 	res: Response,
 	next: NextFunction
@@ -140,71 +141,13 @@ export const userVerifyLoginCode = async (
 		const { countryCode, phoneNumber, code, deviceType, deviceToken } =
 			req.body;
 
-		let account: any = null;
-		let tempAccount = false;
-
-		if (req.userRecord) {
-			account = await User.findOne(
-				{
-					_id: req.userRecord,
-				},
-				{
-					verificationCode: 1,
-					verificationCodeExpiryTime: 1,
-				}
-			);
-		} else {
-			// Create new record in temp accounts and create a random code of 4 digits and send to user over phone number
-			account = await TempAccounts.findOne(
-				{
-					countryCode,
-					phoneNumber,
-				},
-				{
-					verificationCode: 1,
-					verificationCodeExpiryTime: 1,
-				}
-			);
-
-			if (account) {
-				tempAccount = true;
-			}
-		}
-
-		if (!account) {
-			return sendResponse(res, {
-				statusCode: 400,
-				success: false,
-				message: 'Phone number not registered.',
-				data: {},
-			});
-		}
-
-		if (account.verificationCode !== code) {
-			return sendResponse(res, {
-				statusCode: 400,
-				success: false,
-				message: 'Invalid verification code.',
-				data: {},
-			});
-		}
-
-		if (dayjs().isAfter(dayjs(account.verificationCodeExpiryTime))) {
-			return sendResponse(res, {
-				statusCode: 400,
-				success: false,
-				message: 'Verification code expired.',
-				data: {},
-			});
-		}
-
 		let accessToken = null;
 		let refreshToken = null;
 
-		if (!tempAccount) {
+		if (req.userAccount) {
 			const tokens = await fetchAccessAndRefreshToken({
-				_id: account._id,
-				email: account.email,
+				_id: req.userAccount._id,
+				email: req.userAccount.email,
 			});
 			accessToken = tokens.accessToken;
 			refreshToken = tokens.refreshToken;
@@ -229,7 +172,7 @@ export const userVerifyLoginCode = async (
 			success: true,
 			message: 'Success',
 			data: {
-				isNewUser: tempAccount,
+				isNewUser: !req.userAccount,
 				accessToken,
 				refreshToken,
 			},
@@ -251,7 +194,99 @@ export const userVerifyLoginCode = async (
 	}
 };
 
-export const userProfile: RequestHandler = async (req: any, res, next) => {
+export const userSignup = async (
+	req: any,
+	res: Response,
+	next: NextFunction
+) => {
+	try {
+		const {
+			countryCode,
+			phoneNumber,
+			code,
+			deviceType,
+			deviceToken,
+			name,
+			email,
+			referralCode,
+			profileImageURL,
+		} = req.body;
+
+		const userRecord = await new User({
+			countryCode,
+			phoneNumber,
+			deviceType,
+			deviceToken,
+			name,
+			email,
+			referralCode,
+			profileImageURL,
+		}).save();
+
+		if (!userRecord) {
+			return sendResponse(res, {
+				statusCode: 500,
+				success: false,
+				message: 'Error occurred. Please try again later.',
+				data: {},
+			});
+		}
+
+		await TempAccounts.deleteOne({
+			countryCode,
+			phoneNumber,
+		});
+
+		const { accessToken, refreshToken } = await fetchAccessAndRefreshToken({
+			_id: userRecord._id,
+			email: userRecord.email,
+		});
+
+		await saveActionLog({
+			logType: CONSTANTS.LOG_TYPES.user.signup,
+			details: {
+				countryCode,
+				phoneNumber,
+				deviceType,
+				deviceToken,
+				code,
+				name,
+				email,
+				referralCode,
+				profileImageURL,
+			},
+			userId: null,
+			adminId: null,
+			campaignId: null,
+		});
+
+		return sendResponse(res, {
+			statusCode: 200,
+			success: true,
+			message: 'Success',
+			data: {
+				accessToken,
+				refreshToken,
+			},
+		});
+	} catch (err: any) {
+		saveErrorLog({
+			endpoint: req.originalUrl,
+			params: Object.assign({
+				urlParams: req.params,
+				queryParams: req.query,
+				bodyParams: req.body,
+			}),
+			errDetails: err,
+			userId: null,
+			adminId: null,
+		});
+
+		next(err);
+	}
+};
+
+export const fetchUserProfile: RequestHandler = async (req: any, res, next) => {
 	try {
 		return sendResponse(res, {
 			statusCode: 200,

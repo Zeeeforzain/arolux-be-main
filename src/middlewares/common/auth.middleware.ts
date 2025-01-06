@@ -3,6 +3,7 @@ import { sendResponse, verifyJWTToken } from '../../util/utilities.js';
 import User from '../../models/userAccounts.js';
 import Admin from '../../models/admin.js';
 import { saveErrorLog } from './errorLog.middleware.js';
+import { CONSTANTS } from '../../util/constants.js';
 
 interface IJWTPayload {
 	_id: string;
@@ -33,27 +34,10 @@ export const auth = async (req: any, res: Response, next: NextFunction) => {
 			},
 			{
 				email: 1,
-				alternateEmail: 1,
-				firstName: 1,
-				lastName: 1,
-				addressDetails: 1,
-				dateOfBirth: 1,
-				bankInfo: 1,
-				recurlyCode: 1,
-				profileImage: 1,
-				preferredLanguage: 1,
-				countryId: 1,
-				city: 1,
-				state: 1,
+				name: 1,
+				profileImageURL: 1,
+				countryCode: 1,
 				phoneNumber: 1,
-				recentEmailVerificationRequestedTime: 1,
-				isEmailVerified: 1,
-				isPhoneVerified: 1,
-				status: 1,
-				googleId: 1,
-				facebookId: 1,
-				appleId: 1,
-				isAutoApprovalEnabled: 1,
 			}
 		).lean();
 
@@ -64,12 +48,12 @@ export const auth = async (req: any, res: Response, next: NextFunction) => {
 				message: 'Invalid access',
 				data: {},
 			});
-		} else if (user.status === 'inActive') {
+		} else if (user.status === CONSTANTS.USER_PROFILE_STATUSES.blocked) {
 			return sendResponse(res, {
 				statusCode: 401,
 				success: false,
 				message:
-					'Your account has been deactivated by the admin. Please contact support.',
+					'Your account has been blocked by the admin. Please contact support.',
 				data: {},
 			});
 		}

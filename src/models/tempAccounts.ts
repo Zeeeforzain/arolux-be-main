@@ -6,7 +6,6 @@ export interface ITempAccount {
 	phoneNumber: string;
 	verificationCode: string;
 	verificationCodeExpiryTime: Date;
-	isVerified?: boolean; // Optional field for future verification status
 	deviceType: string;
 	deviceToken: string;
 }
@@ -34,10 +33,6 @@ const tempAccountsSchema: Schema = new mongoose.Schema(
 		verificationCodeExpiryTime: {
 			type: Date,
 			default: null,
-		},
-		isVerified: {
-			type: Boolean,
-			default: false, // Indicates if the phone number is verified
 		},
 		deviceType: {
 			type: String,
