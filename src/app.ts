@@ -7,9 +7,9 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-// import router from './routes/base.routes';
 import './services/crons/crons';
 import dotenv from 'dotenv';
+import router from './routes/base.routes.js';
 
 
 dotenv.config();
