@@ -10,7 +10,7 @@ const validationOptions = {
 	stripUnknown: false,
 };
 
-const schemaValidator = (path: string) => {
+const schemaValidator = (path: keyof typeof schemas) => {
 	const schema = schemas[path];
 
 	if (!schema) {
