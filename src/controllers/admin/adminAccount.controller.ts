@@ -32,12 +32,12 @@ export const adminLogin = async (req: any, res: Response) => {
 				password: 1,
 			}
 		);
-
+		
 		if (!admin) {
 			return sendResponse(res, {
 				statusCode: 400,
 				success: false,
-				message: 'Invalid credentials',
+				message: 'Admin Not Found',
 				data: {},
 			});
 		} else if (!admin.isActive) {

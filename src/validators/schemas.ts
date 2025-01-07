@@ -118,17 +118,14 @@ const userSignupValidation: ObjectSchema = Joi.object({
 
 /***************************** Admin Validators ***********************/
 const adminLogin: ObjectSchema = Joi.object({
-	email: Joi.string().required().empty().messages({
-		'string.pattern.base':
-			'Please provide a valid email address in the correct format (e.g., user@example.com)',
+	email: Joi.string().required().email({ minDomainSegments: 2 }).messages({
+		'string.pattern.base': 'Please provide a valid email address in the correct format (e.g., user@example.com)',
 		'string.empty': 'Email is required',
+		'string.email': 'Please provide a valid email address in the correct format (e.g., user@example.com)',
 	}),
 	password: Joi.string()
 		.required()
-		.pattern(/^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
 		.messages({
-			'string.pattern.base':
-				'Password must be at least 8 characters long, contain at least one number, and one special character.',
 			'string.empty': 'Password is required',
 		}),
 });

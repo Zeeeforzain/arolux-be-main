@@ -76,6 +76,12 @@ app.use((err: any, req: Request, res: Response) => {
 		data: {},
 	});
 });
+// app.use((req, res, next) => {
+// 	res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+// 	res.setHeader('Pragma', 'no-cache');
+// 	res.setHeader('Expires', '0');
+// 	next();
+// });
 
 const port = process.env.PORT || 8000;
 
