@@ -145,7 +145,6 @@ export const userLoginCodeVerificationResponse = async (
 		let refreshToken = null;
 
 		if (req.userAccount) {
-			console.log(req.userAccount);
 			const tokens = await fetchAccessAndRefreshToken({
 				_id: req.userAccount._id,
 				email: req.userAccount.email,
@@ -213,7 +212,7 @@ export const userSignup = async (
 			profileImageURL,
 		} = req.body;
 
-		const userRecord = await new User({
+		const userRecord: any = await new User({
 			countryCode,
 			phoneNumber,
 			deviceType,

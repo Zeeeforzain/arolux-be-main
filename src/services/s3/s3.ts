@@ -6,7 +6,6 @@ import {
 import dayjs from 'dayjs';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { readFileSync } from 'fs';
-import { CONSTANTS } from '../../util/constants.js';
 import mime from 'mime-types'; // Install using npm install mime-types
 import { extname } from 'path';
 
@@ -39,16 +38,7 @@ export const deleteFile = async (fileUrls: string[]) => {
 		let key = '';
 
 		if (directories?.length) {
-			if (directories[3] !== CONSTANTS.S3_IMAGE_DIRECTORIES.invoices) {
-				key =
-					directories[3] +
-					'/' +
-					directories[4] +
-					'/' +
-					directories[5];
-			} else {
-				key = directories[3] + '/' + directories[4];
-			}
+			key = directories[3] + '/' + directories[4] + '/' + directories[5];
 		}
 
 		return {

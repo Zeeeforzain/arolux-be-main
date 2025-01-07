@@ -8,23 +8,10 @@ import { saveErrorLog } from '../../middlewares/common/errorLog.middleware.js';
 export const getUploadFileSignedUrl = async (req: any, res: Response) => {
 	try {
 		const { fileType, mimeType } = req.query;
-		/* profile-image, 
-		campaign-cover-image, 
-		campaign-story-image, 
-		bank-document-image, 
-		general-images */
 		let fileKey = '';
 
 		if (fileType === CONSTANTS.S3_FILE_TYPES.profileImage) {
 			fileKey = `${CONSTANTS.S3_IMAGE_DIRECTORIES.profileImages}/1000X1000/`;
-		} else if (fileType === CONSTANTS.S3_FILE_TYPES.campaignCoverImage) {
-			fileKey = `${CONSTANTS.S3_IMAGE_DIRECTORIES.campaignCoverImages}/1000X1000/`;
-		} else if (fileType === CONSTANTS.S3_FILE_TYPES.campaignStoryImage) {
-			fileKey = `${CONSTANTS.S3_IMAGE_DIRECTORIES.campaignStoryImages}/1000X1000/`;
-		} else if (fileType === CONSTANTS.S3_FILE_TYPES.bankDocumentImage) {
-			fileKey = `${CONSTANTS.S3_IMAGE_DIRECTORIES.bankDocumentImages}/1000X1000/`;
-		} else if (fileType === CONSTANTS.S3_FILE_TYPES.generalImage) {
-			fileKey = `${CONSTANTS.S3_IMAGE_DIRECTORIES.generalImages}/1000X1000/`;
 		} else {
 			return sendResponse(res, {
 				statusCode: 400,
@@ -70,6 +57,7 @@ export const getUploadFileSignedUrl = async (req: any, res: Response) => {
 			},
 		});
 	} catch (err: any) {
+		console.log(err);
 		saveErrorLog({
 			endpoint: req.originalUrl,
 			params: Object.assign({
