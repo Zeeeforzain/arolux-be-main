@@ -1,19 +1,17 @@
 export const CONSTANTS = {
 	ADMIN_TYPES: {
 		superAdmin: 'super-admin',
-		financeAdmin: 'finance-admin',
-		approverAdmin: 'approver-admin',
-		reporterAdmin: 'reporter-admin',
+		subAdmin:'sub-admin'
 	},
 	ADMIN_ACCESS: {
-		DASHBOARD: 'dashboard',
-		RIDES: 'rides',
-		VEHICLES: 'vehicles',
-		CUSTOMERS: 'customers',
-		DRIVERS: 'drivers',
-		CONFIGURATIONS: 'configurations',
-		LOCATIONS: 'locations',
-		ADMINS: 'admins',
+		dashboard: 'dashboard',
+		rides: 'rides',
+		vehicles: 'vehicles',
+		customers: 'customers',
+		drivers: 'drivers',
+		configurations: 'configurations',
+		locations: 'locations',
+		admins: 'admins',
 	},
 	LOG_TYPES: {
 		user: {

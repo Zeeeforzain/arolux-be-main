@@ -129,6 +129,61 @@ const adminLogin: ObjectSchema = Joi.object({
 			'string.empty': 'Password is required',
 		}),
 });
+const createNewAdminAccount: ObjectSchema = Joi.object({
+	name: Joi.string().empty().required().messages({
+		'string.empty': 'Please Enter Name',
+	}),
+	email: Joi.string().required().empty().email({ minDomainSegments: 2 }).messages({
+		'string.pattern.base': 'Please provide a valid email address in the correct format (e.g., user@example.com)',
+		'string.empty': 'Email is required',
+		'string.email': 'Please provide a valid email address in the correct format (e.g., user@example.com)',
+	}),
+	phoneNumber: Joi.string()
+		.required()
+		.empty()
+		.trim()
+		.pattern(/^\d{7,15}$/)
+		.messages({
+			'string.pattern.base': 'Phone number must contain 7-15 digits.',
+			'string.empty': 'Phone number is required',
+		}),
+	password: Joi.string()
+		.required()
+		.empty()
+		.messages({
+			'string.empty': 'Password is required',
+		}),
+	confirmPassword: Joi.string()
+		.valid(Joi.ref('password'))
+		.required()
+		.messages({
+			'string.empty': 'Confirm Password is required',
+			'any.only': 'Passwords do not match',
+		}),
+	adminType: Joi.string()
+		.valid('superAdmin', 'subAdmin') // You can add more roles if needed
+		.required()
+		.messages({
+			'string.empty': 'Admin Type is required',
+			'any.only': 'Role must be either "superAdmin" or "subAdmin"',
+		}),
+	permissions: Joi.object().when('adminType', {
+		is: 'subAdmin', // Only validate permissions if the role is subAdmin
+		then: Joi.object({
+			dashboard: Joi.boolean().required(),
+			rides: Joi.boolean().required(),
+			vehicles: Joi.boolean().required(),
+			locations: Joi.boolean().required(),
+			drivers: Joi.boolean().required(),
+			customers: Joi.boolean().required(),
+			configurations: Joi.boolean().required(),
+			admins: Joi.boolean().required(),
+		}).messages({
+			'object.base': 'Permissions are required for subAdmin role.',
+		}),
+		otherwise: Joi.forbidden(), // Permissions should not be passed for non-subAdmin roles
+	}),
+});
 
 export default {
 	'/user/send-login-verification': userSendLoginVerificationValidation,
@@ -136,4 +191,5 @@ export default {
 	'/user/sign-up': userSignupValidation,
 
 	'/admin/login': adminLogin,
+	'/admin/create-admin-account': createNewAdminAccount,
 };
