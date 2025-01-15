@@ -34,8 +34,7 @@ adminRouter.get('/profile', adminAuth, adminProfile);
 adminRouter.post(
 	'/account',
 	adminAuth,
-
-	// schemaValidator('/admin/create-admin-account'),
+	schemaValidator('/admin/create-admin-account'),
 	isAdminAllowedToPerformOperation([CONSTANTS.ADMIN_TYPES.superAdmin]),
 	isEmailAlreadyUsed,
 	createNewAdminAccount
