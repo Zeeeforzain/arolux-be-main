@@ -68,6 +68,7 @@ export const getUploadFileSignedUrl = async (req: any, res: Response) => {
 			errDetails: err,
 			userId: req.user && !req.user.adminType ? req.user._id : null, //in user table adminType field doesn't exist
 			adminId: req.user && req.user.adminType ? req.user._id : null,
+			tempUserId: req.isTempAccount && req.user ? req.user._id : null,
 		});
 
 		return sendResponse(res, {

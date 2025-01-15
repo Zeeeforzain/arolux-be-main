@@ -7,6 +7,7 @@ interface IErrorLog {
 	errDetails: object;
 	userId: ObjectId;
 	adminId: ObjectId;
+	tempUserId: ObjectId;
 	paymentId: ObjectId;
 	ipAddress: string;
 }
@@ -26,6 +27,11 @@ const errorLogsSchema = new Schema<IErrorLog>(
 		adminId: {
 			type: Schema.Types.ObjectId,
 			ref: 'admins',
+			default: null,
+		},
+		tempUserId: {
+			type: Schema.Types.ObjectId,
+			ref: 'tempAccounts',
 			default: null,
 		},
 		paymentId: {

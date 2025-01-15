@@ -4,12 +4,15 @@ import User from '../../models/userAccounts.js';
 import Admin from '../../models/admin.js';
 import { saveErrorLog } from './errorLog.middleware.js';
 import { CONSTANTS } from '../../util/constants.js';
+import TempAccounts from '../../models/tempAccounts.js';
 
 interface IJWTPayload {
 	_id: string;
 	email: string;
 	type?: string;
 	adminId?: string;
+	countryCode?: string;
+	phoneNumber?: string;
 }
 
 export const auth = async (req: any, res: Response, next: NextFunction) => {
@@ -309,6 +312,127 @@ export const commonAuth = async (
 					status: 1,
 				}
 			);
+		}
+
+		if (!user) {
+			return sendResponse(res, {
+				statusCode: 401,
+				success: false,
+				message: 'Invalid access',
+				data: {},
+			});
+		} else if (user.status === 'inActive') {
+			return sendResponse(res, {
+				statusCode: 401,
+				success: false,
+				message:
+					'Your account has been deactivated by the admin. Please contact support.',
+				data: {},
+			});
+		}
+
+		Object.assign(req, {
+			user,
+		});
+		next();
+	} catch (err: any) {
+		saveErrorLog({
+			endpoint: req.originalUrl,
+			params: Object.assign({
+				urlParams: req.params,
+				queryParams: req.query,
+				bodyParams: req.body,
+			}),
+			errDetails: err,
+			userId: null,
+			adminId: null,
+		});
+
+		return sendResponse(res, {
+			statusCode: 401,
+			success: false,
+			message: 'Invalid access',
+			data: {},
+		});
+	}
+};
+
+export const overallAuth = async (
+	req: any,
+	res: Response,
+	next: NextFunction
+) => {
+	try {
+		const { authorization = '' } = req.headers;
+
+		if (!authorization || authorization === '') {
+			return sendResponse(res, {
+				statusCode: 401,
+				success: false,
+				message: 'Access restricted',
+				data: {},
+			});
+		}
+
+		const jwtDecoded = verifyJWTToken(authorization) as IJWTPayload;
+
+		let user: any = await Admin.findOne(
+			{
+				_id: jwtDecoded._id,
+				email: jwtDecoded.email,
+			},
+			{
+				email: 1,
+				firstName: 1,
+				lastName: 1,
+				isActive: 1,
+			}
+		);
+
+		if (user && !user.isActive) {
+			return sendResponse(res, {
+				statusCode: 401,
+				success: false,
+				message:
+					'Your account has been deactivated by the admin. Please contact support.',
+				data: {},
+			});
+		}
+
+		if (!user) {
+			user = await User.findOne(
+				{
+					_id: jwtDecoded._id,
+					email: jwtDecoded.email,
+				},
+				{
+					email: 1,
+					alternateEmail: 1,
+					firstName: 1,
+					lastName: 1,
+					addressDetails: 1,
+					dateOfBirth: 1,
+					bankInfo: 1,
+					status: 1,
+				}
+			);
+		}
+
+		if (!user) {
+			user = await TempAccounts.findOne(
+				{
+					_id: jwtDecoded._id,
+					countryCode: jwtDecoded.countryCode,
+					phoneNumber: jwtDecoded.phoneNumber,
+				},
+				{
+					countryCode: 1,
+					phoneNumber: 1,
+				}
+			);
+			Object.assign(req, {
+				isTempAccount: true,
+			});
 		}
 
 		if (!user) {
