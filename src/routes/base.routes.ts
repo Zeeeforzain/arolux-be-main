@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 
 import userAccountRouter from './user/userAccounts.routes.js';
+import userRidesRouter from './user/rides.routes.js';
 
 import adminRouter from './admin/adminAccount.routes.js';
 import commonRouter from './common/common.routes.js';
@@ -19,6 +20,7 @@ router.get(`${baseRoute}/`, (req: Request, res: Response) => {
 
 // User Routes
 router.use(`${baseRoute}/user`, userAccountRouter);
+router.use(`${baseRoute}/user/rides`, userRidesRouter);
 
 // Admin Routes
 router.use(`${baseRoute}/admin`, adminRouter);

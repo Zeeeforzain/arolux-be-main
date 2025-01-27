@@ -11,6 +11,7 @@ import {
 	sendResponse,
 	generateRandomToken,
 	fetchAccessAndRefreshToken,
+	fetchTempAccessToken,
 } from '../../util/utilities.js';
 import { saveActionLog } from '../../middlewares/common/actionLog.middleware.js';
 import { saveErrorLog } from '../../middlewares/common/errorLog.middleware.js';
@@ -151,6 +152,14 @@ export const userLoginCodeVerificationResponse = async (
 			});
 			accessToken = tokens.accessToken;
 			refreshToken = tokens.refreshToken;
+		} else {
+			const tokens = await fetchTempAccessToken({
+				_id: req.tempUserAccount._id,
+				countryCode,
+				phoneNumber,
+			});
+
+			accessToken = tokens.accessToken;
 		}
 
 		await saveActionLog({

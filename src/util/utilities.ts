@@ -27,6 +27,12 @@ interface IJWTPayload {
 	adminId?: ObjectId;
 }
 
+interface ITempJWTPayload {
+	_id: ObjectId;
+	phoneNumber: string;
+	countryCode: string;
+}
+
 //utility functions
 export const sendResponse = (res: Response, payload: IResponsePayload) => {
 	return res.status(payload.statusCode).json({
@@ -125,6 +131,16 @@ export const fetchAccessAndRefreshToken = (payload: IJWTPayload) => {
 			'Bearer ' +
 			jsonwebtoken.sign(payload, process.env.JWT_REFRESH_SECRET || '', {
 				expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY,
+			}),
+	};
+};
+
+export const fetchTempAccessToken = (payload: ITempJWTPayload) => {
+	return {
+		accessToken:
+			'Bearer ' +
+			jsonwebtoken.sign(payload, process.env.JWT_SECRET || '', {
+				expiresIn: process.env.JWT_TOKEN_EXPIRY,
 			}),
 	};
 };

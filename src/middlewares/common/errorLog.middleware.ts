@@ -8,6 +8,7 @@ export const saveErrorLog = async (payload: {
 	errDetails?: object | null;
 	userId?: ObjectId | null;
 	adminId?: ObjectId | null;
+	tempUserId?: ObjectId | null;
 	paymentId?: ObjectId | null;
 }) => {
 	return await new ErrorLog({
@@ -17,6 +18,7 @@ export const saveErrorLog = async (payload: {
 		errDetails: payload.errDetails,
 		userId: payload.userId,
 		adminId: payload.adminId,
+		tempUserId: payload.tempUserId,
 		paymentId: payload.paymentId,
 	}).save();
 };

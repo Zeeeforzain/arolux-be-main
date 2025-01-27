@@ -136,6 +136,10 @@ export const userVerifyLoginCode: RequestHandler = async (
 					verificationCodeExpiryTime: 1,
 				}
 			);
+
+			Object.assign(req, {
+				tempUserAccount: account,
+			});
 		}
 
 		if (!account) {
